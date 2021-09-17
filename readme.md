@@ -16,9 +16,13 @@
 206. Reverse Linked List
 
 Given the head of a singly linked list, reverse the list, and return the reversed list.
+
 For example :
+
 Input: head = [1,2,3,4,5]
+
 Output: [5,4,3,2,1]
+
 Constraints:
 - The number of nodes in the list is the range [0, 5000].
 - -5000 <= Node.val <= 5000
@@ -43,9 +47,9 @@ class Solution {
     }
 }
 ```
-这道题并没有什么难点，起初话两个指针，每次改变一下curr指针的next指向，然后把curr指针和prev指针往下顺移就好了，直到curr指针为空值，prev指针就变成了[5,4,3,2,1]. 返回prev就好了。这道题我用的是迭代方法写的，官方还有递归的方法，感兴趣的可以去看看。
+这道题并没有什么难点，初始化两个指针，每次改变一下curr指针的next指向，然后把curr指针和prev指针往下顺移就好了，直到curr指针为空值，prev指针就变成了[5,4,3,2,1]. 返回prev就好了。这道题我用的是迭代方法写的，官方还有递归的方法，感兴趣的可以去看看。
 
-- 141. LinkedList Cycle
+- 141.LinkedList Cycle
 
 Given head, the head of a linked list, determine if the linked list has a cycle in it.
 
