@@ -21,6 +21,10 @@
 
 - [141.环形链表](#141环形链表)
 
+- [83.删除排序链表中的重复元素](#83删除排序链表中的重复元素)
+
+- [234.回文链表](#234回文链表)
+
 ## 206. Reverse Linked List
 
 Given the head of a singly linked list, reverse the list, and return the reversed list.
@@ -112,5 +116,118 @@ public class Solution {
     }
 }
 ```
+
+[**Back To Top**](#目录)
+
+## 83.删除排序链表中的重复元素
+
+Given the head of a sorted linked list, delete all duplicates such that each element appears only once. Return the linked list sorted as well.
+
+For example : 
+
+**Input: head = [1,1,2]**
+
+**Output: [1,2]**
+
+Constraints:
+
+- The number of nodes in the list is in the range [0, 300].
+- -100 <= Node.val <= 100
+- The list is guaranteed to be sorted in ascending order.
+
+题解：
+
+```java
+ // Time Complexity O(n), Space Complexity O(1)
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        
+        ListNode curr = head;
+        
+        while(curr != null && curr.next != null) {
+            if (curr.val == curr.next.val) {
+                curr.next = curr.next.next; 
+            } else {
+                curr = curr.next;
+            }
+            
+        }
+        return head;
+    }
+}
+```
+
+这里需要注意的是 curr = curr.next 前面需要加else，否则逻辑就不对了
+
+[**Back To Top**](#目录)
+
+## 234.回文链表
+
+Given the head of a singly linked list, return true if it is a palindrome.
+
+**Input: head = [1,2,2,1]**
+
+**Output: true**
+
+题解 ：
+
+```java
+//Time Complexity O(n), space Complexity O(1)
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        if (head == null) return true;
+        
+        ListNode firstHalfEnd = endOfFirstHalf(head);
+        ListNode secondHalfStart = reverseList(firstHalfEnd.next);
+        //步骤3
+        ListNode p1 = head;
+        ListNode p2 = secondHalfStart;
+        boolean result = true;
+        while (result && p2 != null) {
+            if (p1.val != p2.val) result = false;
+            p1 = p1.next;
+            p2 = p2.next;
+        }
+        //步骤4
+        firstHalfEnd.next = reverseList(secondHalfStart);
+        return result;
+    }
+    //步骤2
+    private ListNode reverseList(ListNode head) {
+        ListNode prev = null;
+        ListNode curr = head;
+        
+        while (curr != null) {
+            ListNode nextTemp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = nextTemp;
+        }
+        return prev;
+    }
+    //步骤1
+    private ListNode endOfFirstHalf(ListNode head) {
+        ListNode fast = head;
+        ListNode slow = head;
+        
+        while (fast.next != null && fast.next.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+}
+
+```
+
+这里因为用的迭代方法。空间是O(1)，并没有用额外的空间，所有题目变了难一些，可能用递归容易些吧，O(n)额外空间？
+这道题大概有4个步骤：
+1. 先找到中间的节点
+2. reverse中间节点
+3. 对比前半节点与后半节点
+4. 再把之前reverse的后半节点再变回原样，从而使整个链表恢复开始原样
 
 [**Back To Top**](#目录)
