@@ -25,7 +25,9 @@
 
 - [234.回文链表](#234回文链表)
 
-- [203. 移除链表元素](#203移除链表元素)
+- [203.移除链表元素](#203移除链表元素)
+
+- [237.删除链表中的节点](#237删除链表中的节点)
 
 ## 206. Reverse Linked List
 
@@ -234,7 +236,7 @@ class Solution {
 
 [**Back To Top**](#目录)
 
-## 203. 移除链表元素
+## 203.移除链表元素
 
 Given the head of a linked list and an integer val, remove all the nodes of the linked list that has Node.val == val, and return the new head.
 
@@ -287,13 +289,16 @@ class Solution {
 题解： 我们这里首先需要一个sentinel node 在开头，是为了解决corner case 比如要delete first node. Now, the first node also becomes the middle node.
 
 Step 1: Initialize a sentinel node, connect it to head node.
+
 Step 2: Initialize prev pointer and curr pointer
+
 Step 3: while curr is not null, if curr value equals val, then make prev.next to curr.next in order to remove target node, otherwise move prev pointer to curr pointer, curr pointer to curr next node
+
 Step4 : return sentinel.next, which is head if it is not deleted. 
 
 [**Back To Top**](#目录)
 
-## 237. 删除链表中的节点
+## 237.删除链表中的节点
 
 Write a function to delete a node in a singly-linked list. You will not be given access to the head of the list, instead you will be given access to the node to be deleted directly.
 
@@ -317,6 +322,7 @@ It is guaranteed that the node to be deleted is not a tail node in the list.
 Solution : 
 
 Step1 : swap node with node next
+
 Step2 : delete it
 
 [**Back To Top**](#目录)
