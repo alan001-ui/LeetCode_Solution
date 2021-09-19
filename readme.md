@@ -25,6 +25,8 @@
 
 - [234.回文链表](#234回文链表)
 
+- [203. 移除链表元素](#203移除链表元素)
+
 ## 206. Reverse Linked List
 
 Given the head of a singly linked list, reverse the list, and return the reversed list.
@@ -229,5 +231,92 @@ class Solution {
 2. reverse中间节点
 3. 对比前半节点与后半节点
 4. 再把之前reverse的后半节点再变回原样，从而使整个链表恢复开始原样，再输出结果值
+
+[**Back To Top**](#目录)
+
+## 203. 移除链表元素
+
+Given the head of a linked list and an integer val, remove all the nodes of the linked list that has Node.val == val, and return the new head.
+
+For exmaple :
+
+**Input: head = [1,2,6,3,4,5,6], val = 6**
+
+**Output: [1,2,3,4,5]**
+
+Constraints:
+
+- The number of nodes in the list is in the range [0, 104].
+- 1 <= Node.val <= 50
+- 0 <= val <= 50
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+
+//Time Complexity O(n), Space Complexity O(1)
+class Solution {
+    public ListNode removeElements(ListNode head, int val) {
+        ListNode sentinel = new ListNode(0);
+        sentinel.next = head;
+        
+        ListNode prev = sentinel, curr = head;
+        while (curr != null) {
+            if (curr.val == val) {
+                 prev.next = curr.next;
+            }else {
+            prev = curr;
+            }
+             curr = curr.next;
+        }
+    
+ 
+         return sentinel.next;
+    }
+}
+```
+
+题解： 我们这里首先需要一个sentinel node 在开头，是为了解决corner case 比如要delete first node. Now, the first node also becomes the middle node.
+
+Step 1: Initialize a sentinel node, connect it to head node.
+Step 2: Initialize prev pointer and curr pointer
+Step 3: while curr is not null, if curr value equals val, then make prev.next to curr.next in order to remove target node, otherwise move prev pointer to curr pointer, curr pointer to curr next node
+Step4 : return sentinel.next, which is head if it is not deleted. 
+
+[**Back To Top**](#目录)
+
+## 237. 删除链表中的节点
+
+Write a function to delete a node in a singly-linked list. You will not be given access to the head of the list, instead you will be given access to the node to be deleted directly.
+
+It is guaranteed that the node to be deleted is not a tail node in the list.
+
+**Input: head = [4,5,1,9], node = 5**
+
+**Output: [4,1,9]**
+
+**Explanation: You are given the second node with value 5, the linked list should become 4 -> 1 -> 9 after calling your function.**
+
+```java
+    class Solution {
+    public void deleteNode(ListNode node) {
+        node.val = node.next.val;
+        node.next = node.next.next;
+    }
+}
+```
+
+Solution : 
+
+Step1 : swap node with node next
+Step2 : delete it
 
 [**Back To Top**](#目录)
