@@ -15,8 +15,6 @@
 
 ### 简单
 
-
-
 - [206.反转链表](#206-reverse-linked-list)
 
 - [141.环形链表](#141环形链表)
@@ -28,6 +26,13 @@
 - [203.移除链表元素](#203移除链表元素)
 
 - [237.删除链表中的节点](#237删除链表中的节点)
+
+- [876.链表的中间结点](#876链表的中间结点)
+
+### 中等
+
+ - [92.反转链表 II](#92反转链表-II)
+
 
 ## 206. Reverse Linked List
 
@@ -324,5 +329,131 @@ Solution :
 Step1 : swap node with node next
 
 Step2 : delete it
+
+[**Back To Top**](#目录)
+
+## 876.链表的中间结点
+
+Given the head of a singly linked list, return the middle node of the linked list.
+
+If there are two middle nodes, return the second middle node.
+
+**Input: head = [1,2,3,4,5]**
+
+**Output: [3,4,5]**
+
+**Explanation: The middle node of the list is node 3.**
+
+**Input: head = [1,2,3,4,5,6]**
+
+**Output: [4,5,6]**
+
+**Explanation: Since the list has two middle nodes with values 3 and 4, we return the second one.**
+
+Constraints:
+
+- The number of nodes in the list is in the range [1, 100].
+
+- 1 <= Node.val <= 100
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+// Time Complexity O(n), Space Complexity O(1)
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        ListNode fast = head;
+        ListNode slow = head;
+        
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        
+        return slow;
+    }
+}
+```
+
+Solution:
+
+Normal problem. Just to remember this algorithm. 
+
+[**Back To Top**](#目录)
+
+## 92.反转链表 II
+
+Given the head of a singly linked list and two integers left and right where left <= right, reverse the nodes of the list from position left to position right, and return the reversed list.
+
+**Input: head = [1,2,3,4,5], left = 2, right = 4**
+
+**Output: [1,4,3,2,5]**
+
+Constraints:
+
+-The number of nodes in the list is n.
+
+-1 <= n <= 500
+
+-500 <= Node.val <= 500
+
+-1 <= left <= right <= n
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+//Time Complexity O(n), Space Complexity O(1)
+class Solution {
+    public ListNode reverseBetween(ListNode head, int m, int n) {
+        if (head == null) {
+            return null;
+        }
+        
+        ListNode curr = head, prev = null;
+        while (m > 1) {
+            prev = curr;
+            curr = curr.next;
+            m--;
+            n--;
+        }
+        
+        ListNode con = prev, tail = curr;
+        
+        ListNode third = null;
+        while (n > 0) {
+            third = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr =third;
+            n--;
+        }
+        
+        if (con != null) {
+            con.next = prev;
+        }else {
+            head = prev;
+        }
+        
+        tail.next = curr;
+        return head;
+    }
+}
+```
 
 [**Back To Top**](#目录)
