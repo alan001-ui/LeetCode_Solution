@@ -34,6 +34,14 @@
  - [92.反转链表 II](#92反转链表-II)
 
 
+
+ ### 双指针与滑动窗口
+
+ ### 中等
+
+ - [1493.Longest Subarray of 1 After Deleting One Elemen](#1493longest-subarray-of-1-after-deleting-one-element)
+
+
 ## 206. Reverse Linked List
 
 Given the head of a singly linked list, reverse the list, and return the reversed list.
@@ -475,3 +483,95 @@ Solution :
 
 
 [**Back To Top**](#目录)
+
+
+## 1493.Longest Subarray of 1 After Deleting One Element
+
+Given a binary array nums, you should delete one element from it.
+
+Return the size of the longest non-empty subarray containing only 1's in the resulting array.
+
+Return 0 if there is no such subarray.
+
+**Example 1:**
+
+**Input: nums = [1,1,0,1]**
+
+**Output: 3**
+
+**Explanation: After deleting the number in position 2, [1,1,1] contains 3 numbers with value of 1's.**
+
+**Example 2:**
+
+**Input: nums = [0,1,1,1,0,1,1,0,1]**
+
+**Output: 5**
+
+**Explanation: After deleting the number in position 4, [0,1,1,1,1,1,0,1] longest subarray with value of 1's is [1,1,1,1,1].**
+
+**Example 3:**
+
+**Input: nums = [1,1,1]**
+
+**Output: 2**
+
+**Explanation: You must delete one element.**
+
+**Example 4:**
+
+**Input: nums = [1,1,0,0,1,1,1,0,1]**
+
+**Output: 4**
+
+**Example 5:**
+
+**Input: nums = [0,0,0]**
+
+**Output: 0**
+
+**Constraints:**
+
+**1 <= nums.length <= 10^5**
+
+**nums[i] is either 0 or 1.**
+
+```java
+    class Solution {
+    public int longestSubarray(int[] arr) {
+      //Simple sliding window logic
+        int k = 1;
+        int n = arr.length;
+        int i = 0;
+        int j = 0;
+        int max = Integer.MIN_VALUE;
+        int count = 0; //count of 0's.
+       while(j < n){
+          
+         if(arr[j] == 0){
+            count++;
+         }
+         //if count of zero is greater than 1 simply slide your window
+         if(count > k){
+            while(count > k){
+                if(arr[i] == 0) count--;
+                i++;
+            }
+         }
+         if(count == k) {
+            max = Math.max(max,j - i + 1);
+         }
+         j++;
+       }
+          //Edge cases 
+          if(max == Integer.MIN_VALUE){
+             /* 2 cases
+             i.All values are 1 only 
+             ii.All are zero only
+             */
+             return arr[0] == 1 ? n - 1 : 0;
+          }
+        //As you are deleting one element so return max_size - 1 as your answer
+          return max - 1;
+    }
+}
+```
