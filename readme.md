@@ -393,19 +393,21 @@ Normal problem. Just to remember this algorithm.
 
 Given the head of a singly linked list and two integers left and right where left <= right, reverse the nodes of the list from position left to position right, and return the reversed list.
 
+For example:
+
 **Input: head = [1,2,3,4,5], left = 2, right = 4**
 
 **Output: [1,4,3,2,5]**
 
 Constraints:
 
--The number of nodes in the list is n.
+- The number of nodes in the list is n.
 
--1 <= n <= 500
+- 1 <= n <= 500
 
--500 <= Node.val <= 500
+- 500 <= Node.val <= 500
 
--1 <= left <= right <= n
+- 1 <= left <= right <= n
 
 ```java
 /**
@@ -425,6 +427,7 @@ class Solution {
             return null;
         }
         
+        //find before reverse beginning node, which is the node before m---here is 1 and tail node(that after reverse)---here is 2
         ListNode curr = head, prev = null;
         while (m > 1) {
             prev = curr;
@@ -435,6 +438,7 @@ class Solution {
         
         ListNode con = prev, tail = curr;
         
+        //reverse the node between m to n
         ListNode third = null;
         while (n > 0) {
             third = curr.next;
@@ -443,7 +447,7 @@ class Solution {
             curr =third;
             n--;
         }
-        
+        //By using con node to connet the 4, which is 1->4 and tail node connects the 5, which is 2 -> 5. 
         if (con != null) {
             con.next = prev;
         }else {
@@ -455,5 +459,19 @@ class Solution {
     }
 }
 ```
+
+Solution :
+
+<img src="92-pic1.png">
+<img src="92-pic2.png">
+<img src="92-pic3.png">
+<img src="92-pic4.png">
+<img src="92-pic5.png">
+<img src="92-pic6.png">
+<img src="92-pic7.png">
+<img src="92-pic8.png">
+<img src="92-pic9.png">
+<img src="92-pic10.png">
+
 
 [**Back To Top**](#目录)
