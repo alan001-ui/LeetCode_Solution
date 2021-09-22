@@ -558,7 +558,7 @@ Return 0 if there is no such subarray.
             }
          }
          if(count == k) {
-            max = Math.max(max,j - i + 1);
+            max = Math.max(max,j - i);
          }
          j++;
        }
@@ -570,8 +570,20 @@ Return 0 if there is no such subarray.
              */
              return arr[0] == 1 ? n - 1 : 0;
           }
-        //As you are deleting one element so return max_size - 1 as your answer
-          return max - 1;
+        
+          return max;
     }
 }
 ```
+
+题解：这道题我们大体分成两组情况：第一种是全为0或者1的时候，返回值是0或者n-1。另一种情况是正常情况。
+
+首先这道题让我们算删除一个0后，最长子区间1。那我们可以利用两个指针i与j把原区间缩小，去计算最长子区间。
+
+计算[i,j]区间长度去代表最长子区间1，但是这里计算的时候，我们要保证区间[i,j]里面只能含一个0，这是因为我们只能删除一个0.如果随着J往后移的时候出现[i,j]有两个0，那么我们就要移动i,也就是把i移到j的位置，再继续扩大j的值，去计算下一个连续最长1子区间。这里K是用来表示区间[i,j]内最大0长度即1.拿Counter与K比较，计算去确保[i，j]区间内只有一个0.
+
+举两个例子：[1,1,1,1,1,1,1,0,1] 计算就是 [1,1,1,1,1,1,1,0,1] 区间长度减去1. i = 0, j = 8
+
+[1,1,1,1,1,1,1,0,0,1]计算的是[1,1,1,1,1,1,1,0] 与 [0,1]
+
+[**Back To Top**](#目录)
