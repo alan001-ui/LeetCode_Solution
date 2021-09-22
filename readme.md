@@ -31,6 +31,8 @@
 
 - [143.重排链表](#143重排链表)
 
+- [82.删除排序链表中的重复元素 II](#82删除排序链表中的重复元素-II)
+
 ### 中等
 
  - [92.反转链表 II](#92反转链表-II)
@@ -663,5 +665,76 @@ Solution :
 <img src="143_pic1.png">
 <img src="143_pic2.png">
 <img src="143_pic3.png">
+
+[**Back To Top**](#目录)
+
+## 82.删除排序链表中的重复元素 II
+
+Given the head of a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list. Return the linked list sorted as well.
+
+**For example :** 
+
+Input: head = [1,2,3,3,4,4,5]
+
+Output: [1,2,5]
+
+Input: head = [1,1,1,2,3]
+
+Output: [2,3]
+
+**Constraints:**
+
+- The number of nodes in the list is in the range [0, 300].
+
+- -100 <= Node.val <= 100
+
+- The list is guaranteed to be sorted in ascending order.
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+//Time Complexity O(n), Space Complexity O(1)
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        // sentinel
+        ListNode sentinel = new ListNode(0, head);
+        // predecessor = the last node 
+        // before the sublist of duplicates
+        ListNode pred = sentinel;
+        
+        while (head != null) {
+            // if it's a beginning of duplicates sublist 
+            // skip all duplicates
+            if (head.next != null && head.val == head.next.val) {
+                // move till the end of duplicates sublist
+                while (head.next != null && head.val == head.next.val) {
+                    head = head.next;    
+                }
+                // skip all duplicates
+                pred.next = head.next;     
+            // otherwise, move predecessor
+            } else {
+                pred = pred.next;    
+            }
+                
+            // move forward
+            head = head.next;    
+        }  
+        return sentinel.next;
+    }
+}
+```
+
+Solution :
+
+Here, we need to pay attention on ListNode sentinel = new ListNode(0, head); because its output of sentinel is [0 -> head]. However, ListNode sentinel = new ListNode(0); its output of sentinel is only [0 -> null]. When comparing head.val == or != head.next.val, we need to put head.next != null. Because when we process the head node at the last node, this head.next will be null, which gives us throw 异常。
 
 [**Back To Top**](#目录)
