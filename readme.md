@@ -41,6 +41,8 @@
 
  - [148.排序链表](#148排序链表)
 
+ - [86.分隔链表](#86分隔链表)
+
 
  ### 双指针与滑动窗口
 
@@ -946,5 +948,79 @@ At each level, we merge n nodes which takes O(n) time. For n=16, we perform merg
 So the time complexity for split and merge operation is O(nlogn)
 - Space Complexity: O(logn) , where n is the number of nodes in linked list. Since the problem is recursive, we need additional space to store the recursive call stack. The maximum depth of the recursion tree is logn
 还有一个方法可以节省空间，我暂时还不理解，就先放置一下。
+
+[**Back To Top**](#目录)
+
+## 86.分隔链表
+
+Given the head of a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or equal to x.
+
+You should preserve the original relative order of the nodes in each of the two partitions.
+
+**Example :**
+
+Input: head = [1,4,3,2,5,2], x = 3
+
+Output: [1,2,2,4,3,5]
+
+**Constraints:**
+
+- The number of nodes in the list is in the range [0, 200].
+
+- -100 <= Node.val <= 100
+
+- -200 <= x <= 200
+
+```java
+    class Solution {
+    public ListNode partition(ListNode head, int x) {
+
+        // before and after are the two pointers used to create the two list
+        // before_head and after_head are used to save the heads of the two lists.
+        // All of these are initialized with the dummy nodes created.
+        ListNode before_head = new ListNode(0);
+        ListNode before = before_head;
+        ListNode after_head = new ListNode(0);
+        ListNode after = after_head;
+
+        while (head != null) {
+
+            // If the original list node is lesser than the given x,
+            // assign it to the before list.
+            if (head.val < x) {
+                before.next = head;
+                before = before.next;
+            } else {
+                // If the original list node is greater or equal to the given x,
+                // assign it to the after list.
+                after.next = head;
+                after = after.next;
+            }
+
+            // move ahead in the original list
+            head = head.next;
+        }
+
+        // Last node of "after" list would also be ending node of the reformed list
+        after.next = null;
+
+        // Once all the nodes are correctly assigned to the two lists,
+        // combine them to form a single list which would be returned.
+        before.next = after_head.next;
+
+        return before_head.next;
+    }
+}
+```
+
+Solution : 
+
+<img src = "86_pic1.png">
+<img src = "86_pic2.png">
+<img src = "86_pic3.png">
+<img src = "86_pic4.png">
+<img src = "86_pic5.png">
+<img src = "86_pic6.png">
+<img src = "86_pic7.png">
 
 [**Back To Top**](#目录)
