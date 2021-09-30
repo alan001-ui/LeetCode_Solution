@@ -47,6 +47,7 @@
 
  - [142.环形链表 II](#142环形链表-II)
 
+ - [147.对链表进行插入排序](#147对链表进行插入排序)
 
  ### 双指针与滑动窗口
 
@@ -1139,5 +1140,36 @@ Do not modify the linked list.
 Solution: 
 
 <img src = "142_pic3.png">
+
+[**Back To Top**](#目录)
+
+## 147.对链表进行插入排序
+
+```java
+//Time Complexity O(n * n) Space Complexity O(1)
+class Solution {
+    public ListNode insertionSortList(ListNode head) {
+        ListNode dummy = new ListNode();
+        ListNode prev = dummy;
+        ListNode curr = head;
+        ListNode next;
+        
+        while (curr != null) {
+            next = curr.next;
+            
+            while (prev.next != null && prev.next.val < curr.val) 
+                prev = prev.next;
+            
+            curr.next = prev.next;
+            prev.next = curr;
+            
+            prev = dummy;
+            curr = next;
+        }
+        
+        return dummy.next;
+    }
+}
+```
 
 [**Back To Top**](#目录)
