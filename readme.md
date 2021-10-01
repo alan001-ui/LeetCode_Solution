@@ -49,6 +49,8 @@
 
  - [147.对链表进行插入排序](#147对链表进行插入排序)
 
+ - [138.复制带随机指针的链表](#138复制带随机指针的链表)
+
  ### 双指针与滑动窗口
 
  ### 中等
@@ -1171,5 +1173,77 @@ class Solution {
     }
 }
 ```
+
+[**Back To Top**](#目录)
+
+## 138.复制带随机指针的链表
+
+```java
+/*
+// Definition for a Node.
+class Node {
+    int val;
+    Node next;
+    Node random;
+
+    public Node(int val) {
+        this.val = val;
+        this.next = null;
+        this.random = null;
+    }
+}
+*/
+public class Solution {
+  // Visited dictionary to hold old node reference as "key" and new node reference as the "value"
+  HashMap<Node, Node> visited = new HashMap<Node, Node>();
+    
+  public Node copyRandomList(Node head) {
+
+    if (head == null) {
+      return null;
+    }
+
+    Node oldNode = head;
+
+    // Creating the new head node.
+    Node newNode = new Node(oldNode.val);
+    this.visited.put(oldNode, newNode);
+
+    // Iterate on the linked list until all nodes are cloned.
+    while (oldNode != null) {
+      // Get the clones of the nodes referenced by random and next pointers.
+      newNode.random = this.getClonedNode(oldNode.random);
+      newNode.next = this.getClonedNode(oldNode.next);
+
+      // Move one step ahead in the linked list.
+      oldNode = oldNode.next;
+      newNode = newNode.next;
+    }
+    return this.visited.get(head);
+  }
+    
+   public Node getClonedNode(Node node) {
+    // If the node exists then
+    if (node != null) {
+      // Check if the node is in the visited dictionary
+      if (this.visited.containsKey(node)) {
+        // If its in the visited dictionary then return the new node reference from the dictionary
+        return this.visited.get(node);
+      } else {
+        // Otherwise create a new node, add to the dictionary and return it
+        this.visited.put(node, new Node(node.val, null, null));
+        return this.visited.get(node);
+      }
+    }
+    return null;
+  }
+}
+```
+
+**Complexity Analysis**
+
+- Time Complexity : O(N)O(N) because we make one pass over the original linked list.
+
+- Space Complexity : O(N)O(N) as we have a dictionary containing mapping from old list nodes to new list nodes. Since there are NN nodes, we have O(N)O(N) space complexity.
 
 [**Back To Top**](#目录)
