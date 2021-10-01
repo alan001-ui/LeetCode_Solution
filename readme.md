@@ -1240,6 +1240,8 @@ public class Solution {
 }
 ```
 
+这里有几点疑问： 为什么要在visited前面加this？ 最后返回的是HashMap的Key Node吗？那字典里的key 和 value 都保持原有链表同样的结构吗？
+
 **Complexity Analysis**
 
 - Time Complexity : O(N) because we make one pass over the original linked list.
