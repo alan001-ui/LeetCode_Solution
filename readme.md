@@ -1242,8 +1242,8 @@ public class Solution {
 
 **Complexity Analysis**
 
-- Time Complexity : O(N)O(N) because we make one pass over the original linked list.
+- Time Complexity : O(N) because we make one pass over the original linked list.
 
-- Space Complexity : O(N)O(N) as we have a dictionary containing mapping from old list nodes to new list nodes. Since there are NN nodes, we have O(N)O(N) space complexity.
+- Space Complexity : O(N) as we have a dictionary containing mapping from old list nodes to new list nodes. Since there are NN nodes, we have O(N) space complexity.
 
 [**Back To Top**](#目录)
