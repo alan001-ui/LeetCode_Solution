@@ -1255,7 +1255,7 @@ public class Solution {
 ## 24.两两交换链表中的节点
 
 ```Java
-    class Solution {
+class Solution {
     public ListNode swapPairs(ListNode head) {
 
         // If the list has no node or has only one node left.
@@ -1294,6 +1294,8 @@ Algorithm
 
 **Complexity Analysis**
 
-- Time Complexity: O(N) where NN is the size of the linked list.
+- Time Complexity: O(N) where N is the size of the linked list.
 
 - Space Complexity: O(N) stack space utilized for recursion.
+
+[**Back To Top**](#目录)
