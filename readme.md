@@ -1,9 +1,9 @@
-# LeetCode题解
+# LeetCode总结题解
 <br>
 <h2> 前言 <h2>
 
 ---
-主要是为了准备算法面试，写下自己一些思考的过程.刷题的顺序是按照这位大佬给的目录刷 https://github.com/resumejob/Leetcode-retag
+主要是为了准备算法面试，总结一些题解的过程.刷题的顺序是按照这位大佬给的目录刷 https://github.com/resumejob/Leetcode-retag
 
 ---
 
@@ -52,6 +52,8 @@
  - [138.复制带随机指针的链表](#138复制带随机指针的链表)
 
  - [24.两两交换链表中的节点](#24两两交换链表中的节点)
+
+ - [328.奇偶链表](#328奇偶链表)
 
  ### 双指针与滑动窗口
 
@@ -1297,5 +1299,32 @@ Algorithm
 - Time Complexity: O(N) where N is the size of the linked list.
 
 - Space Complexity: O(N) stack space utilized for recursion.
+
+[**Back To Top**](#目录)
+
+## 328.奇偶链表
+
+```Java
+public class Solution {
+    public ListNode oddEvenList(ListNode head) {
+        if (head == null) return null;
+        ListNode odd = head, even = head.next, evenHead = even;
+        while (even != null && even.next != null) {
+            odd.next = even.next;
+            odd = odd.next;
+            even.next = odd.next;
+            even = even.next;
+        }
+        odd.next = evenHead;
+        return head;
+    }
+}
+```
+
+**Complexity Analysis**
+
+- Time complexity : O(n). There are total n nodes and we visit each node once.
+
+- Space complexity : O(1). All we need is the four pointers.
 
 [**Back To Top**](#目录)
