@@ -55,6 +55,10 @@
 
  - [328.奇偶链表](#328奇偶链表)
 
+ - [707.设计链表](#707设计链表)
+
+ - [109.有序链表转换二叉搜索树](#109有序链表转换二叉搜索树)
+
  ### 双指针与滑动窗口
 
  ### 中等
@@ -1326,5 +1330,153 @@ public class Solution {
 - Time complexity : O(n). There are total n nodes and we visit each node once.
 
 - Space complexity : O(1). All we need is the four pointers.
+
+[**Back To Top**](#目录)
+
+## 707.设计链表
+
+```Java
+public class ListNode {
+  int val;
+  ListNode next;
+  ListNode(int x) { val = x; }
+}
+
+class MyLinkedList {
+  int size;
+  ListNode head;  // sentinel node as pseudo-head
+  public MyLinkedList() {
+    size = 0;
+    head = new ListNode(0);
+  }
+
+  /** Get the value of the index-th node in the linked list. If the index is invalid, return -1. */
+  public int get(int index) {
+    // if index is invalid
+    if (index < 0 || index >= size) return -1;
+
+    ListNode curr = head;
+    // index steps needed 
+    // to move from sentinel node to wanted index
+    for(int i = 0; i < index + 1; ++i) curr = curr.next;
+    return curr.val;
+  }
+
+  /** Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list. */
+  public void addAtHead(int val) {
+    addAtIndex(0, val);
+  }
+
+  /** Append a node of value val to the last element of the linked list. */
+  public void addAtTail(int val) {
+    addAtIndex(size, val);
+  }
+
+  /** Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted. */
+  public void addAtIndex(int index, int val) {
+    // If index is greater than the length, 
+    // the node will not be inserted.
+    if (index > size) return;
+
+    // [so weird] If index is negative, 
+    // the node will be inserted at the head of the list.
+    if (index < 0) index = 0;
+
+    ++size;
+    // find predecessor of the node to be added
+    ListNode pred = head;
+    for(int i = 0; i < index; ++i) pred = pred.next;
+
+    // node to be added
+    ListNode toAdd = new ListNode(val);
+    // insertion itself
+    toAdd.next = pred.next;
+    pred.next = toAdd;
+  }
+
+  /** Delete the index-th node in the linked list, if the index is valid. */
+  public void deleteAtIndex(int index) {
+    // if the index is invalid, do nothing
+    if (index < 0 || index >= size) return;
+
+    size--;
+    // find predecessor of the node to be deleted
+    ListNode pred = head;
+    for(int i = 0; i < index; ++i) pred = pred.next;
+
+    // delete pred.next 
+    pred.next = pred.next.next;
+  }
+}
+```
+
+**Complexity Analysis**
+
+- Time complexity: O(1) for addAtHead. O(k) for get, addAtIndex, and deleteAtIndex, where k is an index of the element to get, add or delete. O(N) for addAtTail.
+
+- Space complexity: O(1) for all operations.
+
+[**Back To Top**](#目录)
+
+## 109.有序链表转换二叉搜索树
+
+```Java
+/**
+ * Definition for singly-linked list. public class ListNode { int val; ListNode next; ListNode(int
+ * x) { val = x; } }
+ */
+/**
+ * Definition for a binary tree node. public class TreeNode { int val; TreeNode left; TreeNode
+ * right; TreeNode(int x) { val = x; } }
+ */
+class Solution {
+
+  private ListNode findMiddleElement(ListNode head) {
+
+    // The pointer used to disconnect the left half from the mid node.
+    ListNode prevPtr = null;
+    ListNode slowPtr = head;
+    ListNode fastPtr = head;
+
+    // Iterate until fastPr doesn't reach the end of the linked list.
+    while (fastPtr != null && fastPtr.next != null) {
+      prevPtr = slowPtr;
+      slowPtr = slowPtr.next;
+      fastPtr = fastPtr.next.next;
+    }
+
+    // Handling the case when slowPtr was equal to head.
+    if (prevPtr != null) {
+      prevPtr.next = null;
+    }
+
+    return slowPtr;
+  }
+
+  public TreeNode sortedListToBST(ListNode head) {
+
+    // If the head doesn't exist, then the linked list is empty
+    if (head == null) {
+      return null;
+    }
+
+    // Find the middle element for the list.
+    ListNode mid = this.findMiddleElement(head);
+
+    // The mid becomes the root of the BST.
+    TreeNode node = new TreeNode(mid.val);
+
+    // Base case when there is just one element in the linked list
+    if (head == mid) {
+      return node;
+    }
+
+    // Recursively form balanced BSTs using the left and right halves of the original list.
+    node.left = this.sortedListToBST(head);
+    node.right = this.sortedListToBST(mid.next);
+    return node;
+  }
+}
+```
 
 [**Back To Top**](#目录)
