@@ -59,6 +59,10 @@
 
  - [109.有序链表转换二叉搜索树](#109有序链表转换二叉搜索树)
 
+ - [430.扁平化多级双向链表](#430扁平化多级双向链表)
+
+ - [725.分隔链表](#725分隔链表)
+
  ### 双指针与滑动窗口
 
  ### 中等
@@ -1480,3 +1484,94 @@ class Solution {
 ```
 
 [**Back To Top**](#目录)
+
+## 430.扁平化多级双向链表
+
+```Java
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public Node prev;
+    public Node next;
+    public Node child;
+
+    public Node() {}
+
+    public Node(int _val,Node _prev,Node _next,Node _child) {
+        val = _val;
+        prev = _prev;
+        next = _next;
+        child = _child;
+    }
+};
+*/
+class Solution {
+  public Node flatten(Node head) {
+    if (head == null) return head;
+    // pseudo head to ensure the `prev` pointer is never none
+    Node pseudoHead = new Node(0, null, head, null);
+
+    flattenDFS(pseudoHead, head);
+
+    // detach the pseudo head from the real head
+    pseudoHead.next.prev = null;
+    return pseudoHead.next;
+  }
+  /* return the tail of the flatten list */
+  public Node flattenDFS(Node prev, Node curr) {
+    if (curr == null) return prev;
+    curr.prev = prev;
+    prev.next = curr;
+
+    // the curr.next would be tempered in the recursive function
+    Node tempNext = curr.next;
+
+    Node tail = flattenDFS(curr, curr.child);
+    curr.child = null;
+
+    return flattenDFS(tail, tempNext);
+  }
+}
+```
+
+**Complexity**
+
+- Time Complexity:O(N) where N is the number of nodes in the list. The DFS algorithm traverses each node once and only once.
+
+- Space Complexity:O(N) where N is the number of nodes in the list. In the worst case, the binary tree might be extremely unbalanced (i.e. the tree leans to the left), which corresponds to the case where nodes are chained with each other only with the child pointers. In this case, the recursive calls would pile up, and it would take N space in the function call stack.
+
+## 725.分隔链表
+
+```Java
+class Solution {
+    public ListNode[] splitListToParts(ListNode root, int k) {
+        ListNode cur = root;
+        int N = 0;
+        while (cur != null) {
+            cur = cur.next;
+            N++;
+        }
+
+        int width = N / k, rem = N % k;
+
+        ListNode[] ans = new ListNode[k];
+        cur = root;
+        for (int i = 0; i < k; ++i) {
+            ListNode head = new ListNode(0), write = head;
+            for (int j = 0; j < width + (i < rem ? 1 : 0); ++j) {
+                write = write.next = new ListNode(cur.val);
+                cur = cur.next;
+            }
+            ans[i] = head.next;
+        }
+        return ans;
+    }
+}
+```
+
+**Complexity Analysis**
+
+-Time Complexity: O(N+k), where N is the number of nodes in the given list. If k is large, it could still require creating many new empty lists.
+
+-Space Complexity: O(max(N,k)), the space used in writing the answer.
