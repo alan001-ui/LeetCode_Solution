@@ -63,6 +63,8 @@
 
  - [725.分隔链表](#725分隔链表)
 
+ - [25.K 个一组翻转链表](#25K-个一组翻转链表)
+
  ### 双指针与滑动窗口
 
  ### 中等
@@ -1541,6 +1543,8 @@ class Solution {
 
 - Space Complexity:O(N) where N is the number of nodes in the list. In the worst case, the binary tree might be extremely unbalanced (i.e. the tree leans to the left), which corresponds to the case where nodes are chained with each other only with the child pointers. In this case, the recursive calls would pile up, and it would take N space in the function call stack.
 
+[**Back To Top**](#目录)
+
 ## 725.分隔链表
 
 ```Java
@@ -1575,3 +1579,97 @@ class Solution {
 -Time Complexity: O(N+k), where N is the number of nodes in the given list. If k is large, it could still require creating many new empty lists.
 
 -Space Complexity: O(max(N,k)), the space used in writing the answer.
+
+[**Back To Top**](#目录)
+
+## 25.K 个一组翻转链表
+
+```Java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    
+    public ListNode reverseLinkedList(ListNode head, int k) {
+        
+        // Reverse k nodes of the given linked list.
+        // This function assumes that the list contains 
+        // atleast k nodes.
+        ListNode new_head = null;
+        ListNode ptr = head;
+        
+        while (k > 0) {
+            
+            // Keep track of the next node to process in the
+            // original list
+            ListNode next_node = ptr.next;
+            
+            // Insert the node pointed to by "ptr"
+            // at the beginning of the reversed list
+            ptr.next = new_head;
+            new_head = ptr;
+            
+            // Move on to the next node
+            ptr = next_node;
+            
+            // Decrement the count of nodes to be reversed by 1
+            k--;
+        }
+            
+            
+        // Return the head of the reversed list
+        return new_head;
+    
+    }
+            
+    public ListNode reverseKGroup(ListNode head, int k) {
+        
+        int count = 0;
+        ListNode ptr = head;
+        
+        // First, see if there are atleast k nodes
+        // left in the linked list.
+        while (count < k && ptr != null) {
+            ptr = ptr.next;
+            count++;
+        }
+            
+        
+        // If we have k nodes, then we reverse them
+        if (count == k) {
+            
+            // Reverse the first k nodes of the list and
+            // get the reversed list's head.
+            ListNode reversedHead = this.reverseLinkedList(head, k);
+            
+            // Now recurse on the remaining linked list. Since
+            // our recursion returns the head of the overall processed
+            // list, we use that and the "original" head of the "k" nodes
+            // to re-wire the connections.
+            head.next = this.reverseKGroup(ptr, k);
+            return reversedHead;
+        }
+            
+        return head;
+    }
+}
+```
+
+**Complexity Analysis**
+
+- Time Complexity: O(N) since we process each node exactly twice. Once when we are counting the number of nodes in each recursive call, and then once when we are actually reversing the sub-list. A slightly optimized implementation here could be that we don't count the number of nodes at all and simply reverse k nodes. If at any point we find that we didn't have enough nodes, we can re-reverse the last set of nodes so as to keep the original structure as required by the problem statement. That ways, we can get rid of the extra counting.
+
+- Space Complexity:O(N/k) used up by the recursion stack. The number of recursion calls is determined by both k and N. In every recursive call, we process k nodes and then make a recursive call to process the rest.
+
+<img src="25_pic1.png">
+<img src="25_pic2.png">
+<img src="25_pic3.png">
+<img src="25_pic4.png">
+<img src="25_pic5.png">
+
+[**Back To Top**](#目录)
