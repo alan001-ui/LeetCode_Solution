@@ -71,6 +71,8 @@
 
  - [21.合并两个有序链表](#21合并两个有序链表)
 
+ - [160.相交链表](#160相交链表)
+
 
 
 
@@ -1718,5 +1720,47 @@ class Solution {
 **Space complexity : O(n + m)**
 
 - The first call to mergeTwoLists does not return until the ends of both l1 and l2 have been reached, so n + m stack frames consume O(n + m) space.
+
+[**Back To Top**](#目录)
+
+## 160.相交链表
+
+**Algorithm**
+
+- Set pointer pA to point at headA.
+
+- Set pointer pB to point at headB.
+
+- While pA and pB are not pointing at the same node:
+  If pA is pointing to a null, set pA to point to headB.
+  Else, set pA to point at pA.next.
+  If pB is pointing to a null, set pB to point to headA.
+  Else, set pB to point at pB.next.
+
+- return the value pointed to by pA (or by pB; they're the same now).
+
+```Java
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode pA = headA;
+        ListNode pB = headB;
+        while (pA != pB) {
+            pA = pA == null ? headB : pA.next;
+            pB = pB == null ? headA : pB.next;
+        }
+        return pA;
+        // Note: In the case lists do not intersect, the pointers for A and B
+        // will still line up in the 2nd iteration, just that here won't be
+        // a common node down the list and both will reach their respective ends
+        // at the same time. So pA will be NULL in that case.
+    }
+}
+```
+
+Let N be the length of list A and M be the length of list B.
+
+Time Complexity : O(M + N) 
+
+Space complexity : O(1)
 
 [**Back To Top**](#目录)
