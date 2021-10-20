@@ -77,6 +77,7 @@
 
  - [2.两数相加](#2两数相加)
 
+ - [445.两数相加 II](#445两数相加-II)
 
 
 
@@ -1139,7 +1140,7 @@ Do not modify the linked list.
         }
 
         return null;
-}
+    }
 
     public ListNode detectCycle(ListNode head) {
         if (head == null) {
@@ -1824,5 +1825,71 @@ public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
 -Time complexity : O(max(m,n)). Assume that m and n represents the length of l1 and l2 respectively, the algorithm above iterates at most max(m,n) times.
 
 - Space complexity : O(max(m,n)). The length of the new list is at most max(m,n) + 1.
+
+[**Back To Top**](#目录)
+
+## 445.两数相加 II
+
+Algorithm:
+
+1 rerverse l1 and l2
+
+2 add two numbers together like the question LeeCode 2
+
+3 reverse the output 
+
+```Java
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode prev = null;
+        ListNode curr = head;
+        ListNode next;
+        
+        while (curr != null) {
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        
+        return prev;
+    }
+    
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+    
+        l1 = reverseList(l1);
+        l2 = reverseList(l2);
+        
+        ListNode dummyHead = new ListNode(0);
+        ListNode p = l1, q = l2, curr = dummyHead;
+        int carry = 0;
+        
+        while (p != null || q != null) {
+        int x = (p != null) ? p.val : 0;
+        int y = (q != null) ? q.val : 0;
+        int sum = carry + x + y;
+        carry = sum / 10;
+        curr.next = new ListNode(sum % 10);
+        curr = curr.next;
+        if (p != null) p = p.next;
+        if (q != null) q = q.next;
+        }
+        
+        if (carry > 0) {
+        curr.next = new ListNode(carry);
+        }
+        
+        return reverseList(dummyHead.next);
+        
+   }
+    
+}
+```
+
+Complexity Analysis :
+
+Time Complexity : O(N1 + N2), where N1 + N2 is a number of elements in both lists.
+
+Space Complexity : O(1) space complexity without taking the output list into account, and O(max(N1, N2)) to store the output list.
 
 [**Back To Top**](#目录)
